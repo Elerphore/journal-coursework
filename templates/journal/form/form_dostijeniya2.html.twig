@@ -1,0 +1,56 @@
+{% extends export|default(false) ? 'journal/form/export.html.twig' : 'journal/form/layout.html.twig' %}
+
+{% block form %}
+    <p>
+        Сведения об участии студентов в университетских, городских, областных и общероссийских мероприятиях
+        {{ currentAcademicYear.id - group.year + 1 }} курс
+        {{ currentAcademicYear.id }} учебный год
+    </p>
+{% endblock %}
+
+{% block table %}
+    <table class="journal__table journal__table-form15">
+        <thead>
+        <tr>
+            <th>Дата, время проведения</th>
+            <th>Мероприятие</th>
+            <th>Результат</th>
+            <th>ФИО участника</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for participation in participations %}
+        <tr>
+            <td class="col_date">{{ participation.event.date|date('d.m.Y') }}</td>
+            <td>{{ participation.event.name }}</td>
+            <td>{{ participation.result }}</td>
+            <td>{{ participation.student.fio }}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+
+    {% if export|default(false) %}
+        <style>
+            tr > :nth-child(1) {
+                width: 20%;
+            }
+
+            tr > :nth-child(2) {
+                width: 30%;
+            }
+
+            tr > :nth-child(3) {
+                width: 20%;
+            }
+
+            tr > :nth-child(4) {
+                width: 30%;
+            }
+        </style>
+    {% endif %}
+{% endblock %}

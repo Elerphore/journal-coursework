@@ -1,0 +1,45 @@
+{% extends 'cms/table.html.twig' %}
+
+{% block table_name %}
+    Violations
+{% endblock %}
+
+{% block table_create_btn %}
+    <a class="btn-adm" href="{{ path('app_cms_violation_create') }}">Добавить</a>
+{% endblock %}
+
+{% block table_content %}
+    <table class="table">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>Название</th>
+            <th>Дата</th>
+            <th>Принятые меры</th>
+            <th>Примечание</th>
+            <th>id_typeOfViolation</th>
+            <th>id_academicYear</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for violation in violations %}
+            <tr>
+                <td class="col-index">{{ loop.index }}</td>
+                <td>{{ violation.name }}</td>
+                <td class="col-date">{{ violation.date|date('d.m.Y') }}</td>
+                <td>{{ violation.measuresTaken }}</td>
+                <td>{{ violation.note }}</td>
+                <td>{{ violation.typeOfViolation.name }}</td>
+                <td>{{ violation.academicYear.id }}</td>
+                <td class="actions actions-one-line">
+                    <a class="btn-adm"
+                       href="{{ path('app_cms_violation_update', {violation: violation.id}) }}">Редактировать</a>
+                    <a class="btn-adm"
+                       href="{{ path('app_cms_violation_delete', {violation: violation.id}) }}">Удалить</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

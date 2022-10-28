@@ -1,0 +1,43 @@
+{% extends 'cms/table.html.twig' %}
+
+{% block table_name %}
+    Parent
+{% endblock %}
+
+{% block table_create_btn %}
+    <a class="btn-adm" href="{{ path('app_cms_parents_create') }}">Добавить</a>
+{% endblock %}
+
+{% block table_content %}
+    <table class="table">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>Фамилия</th>
+            <th>Имя</th>
+            <th>Отчество</th>
+            <th>Номер телефона</th>
+            <th>Адрес</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for parent in parents %}
+            <tr>
+                <td class="col-index">{{ loop.index }}</td>
+                <td>{{ parent.surname }}</td>
+                <td>{{ parent.name }}</td>
+                <td>{{ parent.patronymic }}</td>
+                <td>{{ parent.phone }}</td>
+                <td>{{ parent.address }}</td>
+                <td class="actions actions-one-line">
+                    <a class="btn-adm"
+                       href="{{ path('app_cms_parents_update', {parent: parent.id}) }}">Редактировать</a>
+                    <a class="btn-adm"
+                       href="{{ path('app_cms_parents_delete', {parent: parent.id}) }}">Удалить</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

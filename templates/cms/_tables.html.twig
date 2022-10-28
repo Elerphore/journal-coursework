@@ -1,0 +1,15 @@
+<script>
+    $(function () {
+        $('#sel').change(function () {
+            var href = $(this).val();
+
+            if (href !== '') {
+                window.location = href;
+            }
+        });
+    });
+</script>
+
+<div style="text-align: center; margin-bottom: 20px">
+    {{ form_widget(tables, {id: 'sel', attr: {'class': 'sel'}}) }}
+</div>

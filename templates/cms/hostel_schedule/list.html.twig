@@ -1,0 +1,43 @@
+{% extends 'cms/table.html.twig' %}
+
+{% block table_name %}
+    HostelSchedules
+{% endblock %}
+
+{% block table_create_btn %}
+    <a class="btn-adm" href="{{ path('app_cms_hostel_schedule_create') }}">Добавить</a>
+{% endblock %}
+
+{% block table_content %}
+    <table class="table">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>Месяц</th>
+            <th>Дата</th>
+            <th>Примечание</th>
+            <th>id_student</th>
+            <th>id_academicYear</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for hostelSchedule in hostelSchedules %}
+            <tr>
+                <td class="col-index">{{ loop.index }}</td>
+                <td>{{ hostelSchedule.month }}</td>
+                <td class="col-date">{{ hostelSchedule.date|date('d.m.Y') }}</td>
+                <td>{{ hostelSchedule.note }}</td>
+                <td>{{ hostelSchedule.student.fio }}</td>
+                <td>{{ hostelSchedule.academicYear.id }}</td>
+                <td class="actions actions-one-line">
+                    <a class="btn-adm"
+                       href="{{ path('app_cms_hostel_schedule_update', {hostelSchedule: hostelSchedule.id}) }}">Редактировать</a>
+                    <a class="btn-adm"
+                       href="{{ path('app_cms_hostel_schedule_delete', {hostelSchedule: hostelSchedule.id}) }}">Удалить</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

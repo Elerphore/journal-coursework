@@ -1,0 +1,59 @@
+{% extends export|default(false) ? 'journal/form/export.html.twig' : 'journal/form/layout.html.twig' %}
+
+{% block form %}
+    <p>
+        Тематика и учет часов общения с обучающимися колледжа
+        {{ currentAcademicYear.id }} учебный год
+    </p>
+{% endblock %}
+
+{% block table %}
+    <table class="journal__table journal__table-form15">
+        <thead>
+        <tr>
+            <th>Месяц</th>
+            <th>Дата</th>
+            <th>Тематика</th>
+            <th>Результат кол-во присутствующих</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for month, monthGroup in classhours|group_by(classhour => classhour.month) %}
+            {% for classhour in monthGroup %}
+                <tr>
+                    {% if loop.index0 == 0 %}
+                        <td class="col_month" rowspan="{{ monthGroup|length }}">{{ month }}</td>
+                    {% endif %}
+                    <td class="col_date">{{ classhour.date|date('d.m.Y') }}</td>
+                    <td>{{ classhour.subject }}</td>
+                    <td>{{ classhour.qty }}</td>
+                </tr>
+            {% endfor %}
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+
+    {% if export|default(false) %}
+        <style>
+            tr > :nth-child(1) {
+                width: 15%;
+            }
+
+            tr > :nth-child(2) {
+                width: 15%;
+            }
+
+            tr > :nth-child(3) {
+                width: 45%;
+            }
+
+            tr > :nth-child(4) {
+                width: 25%;
+            }
+        </style>
+    {% endif %}
+{% endblock %}

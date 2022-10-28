@@ -1,0 +1,45 @@
+{% extends 'cms/table.html.twig' %}
+
+{% block table_name %}
+    ParentsMeetings
+{% endblock %}
+
+{% block table_create_btn %}
+    <a class="btn-adm" href="{{ path('app_cms_parents_meeting_create') }}">Добавить</a>
+{% endblock %}
+
+{% block table_content %}
+    <table class="table">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>Месяц</th>
+            <th>Дата</th>
+            <th>Тема</th>
+            <th>Количество присутствующих</th>
+            <th>id_group</th>
+            <th>id_academicYear</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for parentsMeeting in parentsMeetings %}
+            <tr>
+                <td class="col-index">{{ loop.index }}</td>
+                <td>{{ parentsMeeting.month }}</td>
+                <td class="col-date">{{ parentsMeeting.date|date('d.m.Y') }}</td>
+                <td>{{ parentsMeeting.subject }}</td>
+                <td>{{ parentsMeeting.qty }}</td>
+                <td>{{ parentsMeeting.group.name }}</td>
+                <td>{{ parentsMeeting.academicYear.id }}</td>
+                <td class="actions actions-one-line">
+                    <a class="btn-adm"
+                       href="{{ path('app_cms_parents_meeting_update', {parentsMeeting: parentsMeeting.id}) }}">Редактировать</a>
+                    <a class="btn-adm"
+                       href="{{ path('app_cms_parents_meeting_delete', {parentsMeeting: parentsMeeting.id}) }}">Удалить</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

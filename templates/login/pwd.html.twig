@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {{ form_start(form, {'attr': {'class': 'form form_change_password'}}) }}
+
+    <legend>Изменение пароля</legend>
+
+    {% for label, messages in app.flashes %}
+        {%- for message in messages -%}
+            <div class="flash flash-{{ label }}">
+                {{- message -}}
+            </div>
+        {%- endfor -%}
+    {% endfor %}
+
+    {{ form_rest(form) }}
+{% endblock %}

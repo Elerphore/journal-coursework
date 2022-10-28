@@ -1,0 +1,46 @@
+{% extends export|default(false) ? 'journal/form/export.html.twig' : 'journal/form/layout.html.twig' %}
+
+{% block form %}
+    <p>Список обучающихся {{ currentAcademicYear.id - group.year + 1 }} курса</p>
+{% endblock %}
+
+{% block table %}
+    <table class="journal__table journal__table-form13">
+        <thead>
+        <tr>
+            <th>№</th>
+            <th>ФИО участника</th>
+            <th>Примечание</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for student in students %}
+            <tr>
+                <td class="col_row">{{ loop.index }}</td>
+                <td>{{ student.fio }}</td>
+                <td></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+
+    {% if export|default(false) %}
+        <style>
+            tr > :nth-child(1) {
+                width: 10%;
+            }
+
+            tr > :nth-child(2) {
+                width: 40%;
+            }
+
+            tr > :nth-child(3) {
+                width: 50%;
+            }
+        </style>
+    {% endif %}
+{% endblock %}

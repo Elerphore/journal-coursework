@@ -1,0 +1,87 @@
+<div class="journal-choices">
+    {{ form_start(choices, {attr: {id: 'choice'}}) }}
+    {% if choices.branch is defined %}
+        {{ form_row(choices.branch, {label: false, id: 'sel-branch', attr: {'class': 'sel'}}) }}
+        {{ form_row(choices.group_search, {label: false, id: 'group_search'}) }}
+    {% endif %}
+    {{ form_row(choices.group, {label: false, id: 'sel-group', attr: {'class': 'sel'}, widget: 'input'}) }}
+    {{ form_row(choices.form, {label: false, id: 'sel-form', attr: {'class': 'sel'}}) }}
+    {{ form_end(choices) }}
+</div>
+
+<script>
+    (function () {
+        let branchElement = document.querySelector('#sel-branch');
+        let groupElement = document.querySelector('#sel-group');
+        let groupSearchElement = document.querySelector('#group_search');
+
+        if (!branchElement) {
+            return;
+        }
+
+        let groups = [];
+
+        let loadGroups = async function () {
+            groupSearchElement.setAttribute('disabled', '');
+
+            try {
+                const source = await fetch(`/journal/groups/${branchElement.value}`);
+                const data = await source.json();
+
+                groups.splice(0, groups.length, ...data.groups);
+
+                groupSearchElement.removeAttribute('disabled');
+            } catch (error) {
+                groupSearchElement.value = 'Ошибка загрузки списка групп...';
+            }
+        };
+
+        let autoCompleteJS = new autoComplete({
+            selector: () => groupSearchElement,
+            placeHolder: 'Введите номер группы',
+            data: {
+                src: groups,
+                keys: ['name']
+            },
+            trigger: () => true,
+            resultItem: {
+                highlight: true
+            },
+            events: {
+                input: {
+                    selection: (event) => {
+                        const selection = event.detail.selection.value;
+
+                        groupElement.value = selection.id;
+                        groupSearchElement.value = selection.name;
+                    },
+                    focus() {
+                        autoCompleteJS.start();
+                    }
+                }
+            }
+        });
+
+        $(branchElement).change(function () {
+            groupElement.value = '';
+            groupSearchElement.value = '';
+
+            loadGroups();
+        });
+
+        if (groupSearchElement.value !== null) {
+            loadGroups();
+        }
+    })();
+
+    $(function () {
+        $('#choice').submit(function (e) {
+            e.preventDefault();
+
+            let branch = e.target.elements['sel-group'];
+            let form = e.target.elements['sel-form'];
+
+            window.location.href = '/journal/' + branch.value + '/' + form.value;
+        });
+    });
+</script>

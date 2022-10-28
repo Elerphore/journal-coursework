@@ -1,0 +1,35 @@
+{% extends 'cms/table.html.twig' %}
+
+{% block table_name %}
+    Typeofevent
+{% endblock %}
+
+{% block table_create_btn %}
+    <a class="btn-adm" href="{{ path('app_cms_type_of_event_create') }}">Добавить</a>
+{% endblock %}
+
+{% block table_content %}
+    <table class="table">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>Название</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for typeOfEvent in typesOfEvent %}
+            <tr>
+                <td class="col-index">{{ loop.index }}</td>
+                <td>{{ typeOfEvent.name }}</td>
+                <td class="actions actions-one-line">
+                    <a class="btn-adm"
+                       href="{{ path('app_cms_type_of_event_update', {typeOfEvent: typeOfEvent.id}) }}">Редактировать</a>
+                    <a class="btn-adm"
+                       href="{{ path('app_cms_type_of_event_delete', {typeOfEvent: typeOfEvent.id}) }}">Удалить</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

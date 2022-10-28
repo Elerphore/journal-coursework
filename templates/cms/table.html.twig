@@ -1,0 +1,15 @@
+{% extends 'cms/layout.html.twig' %}
+
+{% block content %}
+    <p class="cms_table-name">
+        {%- block table_name -%}{%- endblock -%}
+    </p>
+
+    <div class="cms_table-create-button">
+        {%- block table_create_btn -%}{%- endblock -%}
+    </div>
+
+    <div class="table-wrapper">
+        {%- block table_content -%}{%- endblock -%}
+    </div>
+{% endblock %}

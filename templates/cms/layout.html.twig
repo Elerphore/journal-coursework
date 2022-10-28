@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="cms">
+    {{ render(controller('App\\Controller\\CmsController::tables')) }}
+
+    <div class="cms-content">
+    {% block content %}
+    {% endblock %}
+    </div>
+</div>
+{% endblock %}

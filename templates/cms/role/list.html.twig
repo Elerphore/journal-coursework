@@ -1,0 +1,41 @@
+{% extends 'cms/table.html.twig' %}
+
+{% block table_name %}
+    Role
+{% endblock %}
+
+{% block table_create_btn %}
+    <a class="btn-adm" href="{{ path('app_cms_role_create') }}">Добавить</a>
+{% endblock %}
+
+{% block table_content %}
+    <table class="table">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>Название</th>
+            <th>Логин</th>
+            <th>Роль</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for role in roles %}
+            <tr>
+                <td class="col-index">{{ loop.index }}</td>
+                <td>{{ role.name }}</td>
+                <td>{{ role.login }}</td>
+                <td>{{ role.role|role_name }}</td>
+                <td class="actions actions-one-line">
+                    <a class="btn-adm"
+                       href="{{ path('app_cms_role_update', {role: role.id}) }}">Редактировать</a>
+                    {% if is_granted('ROLES_DELETE', role) %}
+                        <a class="btn-adm"
+                           href="{{ path('app_cms_role_delete', {role: role.id}) }}">Удалить</a>
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

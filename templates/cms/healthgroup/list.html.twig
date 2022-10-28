@@ -1,0 +1,39 @@
+{% extends 'cms/table.html.twig' %}
+
+{% block table_name %}
+    Healthgroup
+{% endblock %}
+
+{% block table_create_btn %}
+    <a class="btn-adm" href="{{ path('app_cms_healthgroup_create') }}">Добавить</a>
+{% endblock %}
+
+{% block table_content %}
+    <table class="table">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>Название</th>
+            <th>Описание</th>
+            <th>Рекомендации</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for healthgroup in healthgroups %}
+            <tr>
+                <td class="col-index">{{ loop.index }}</td>
+                <td>{{ healthgroup.name }}</td>
+                <td>{{ healthgroup.description }}</td>
+                <td>{{ healthgroup.recommendations }}</td>
+                <td class="actions">
+                    <a class="btn-adm"
+                       href="{{ path('app_cms_healthgroup_update', {healthgroup: healthgroup.id}) }}">Редактировать</a>
+                    <a class="btn-adm"
+                       href="{{ path('app_cms_healthgroup_delete', {healthgroup: healthgroup.id}) }}">Удалить</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

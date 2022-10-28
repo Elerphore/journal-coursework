@@ -1,0 +1,45 @@
+{% extends 'cms/table.html.twig' %}
+
+{% block table_name %}
+    Classhours
+{% endblock %}
+
+{% block table_create_btn %}
+    <a class="btn-adm" href="{{ path('app_cms_classhour_create') }}">Добавить</a>
+{% endblock %}
+
+{% block table_content %}
+    <table class="table">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>Месяц</th>
+            <th>Дата</th>
+            <th>Тема</th>
+            <th>Количество присутствующих</th>
+            <th>id_group</th>
+            <th>id_academicYear</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for classhour in classhours %}
+            <tr>
+                <td class="col-index">{{ loop.index }}</td>
+                <td>{{ classhour.month }}</td>
+                <td class="col-date">{{ classhour.date|date('d.m.Y') }}</td>
+                <td>{{ classhour.subject }}</td>
+                <td>{{ classhour.qty }}</td>
+                <td>{{ classhour.group.name }}</td>
+                <td>{{ classhour.academicYear.id }}</td>
+                <td class="actions actions-one-line">
+                    <a class="btn-adm"
+                       href="{{ path('app_cms_classhour_update', {classhour: classhour.id}) }}">Редактировать</a>
+                    <a class="btn-adm"
+                       href="{{ path('app_cms_classhour_delete', {classhour: classhour.id}) }}">Удалить</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

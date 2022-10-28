@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="page-error">
+        <h1>{%- block error_title -%}{%- endblock -%}</h1>
+
+        <p>
+            {% block error_text %}
+                <a href="{{ path('index') }}">Вернуться на главную</a>
+            {% endblock %}
+        </p>
+    </div>
+{% endblock %}

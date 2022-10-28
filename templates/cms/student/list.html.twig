@@ -1,0 +1,57 @@
+{% extends 'cms/table.html.twig' %}
+
+{% block table_name %}
+    Students
+{% endblock %}
+
+{% block table_create_btn %}
+    <a class="btn-adm" href="{{ path('app_cms_student_create') }}">Добавить</a>
+{% endblock %}
+
+{% block table_content %}
+    <table class="table">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>Фамилия</th>
+            <th>Имя</th>
+            <th>Отчество</th>
+            <th>День рождения</th>
+            <th>Адрес</th>
+            <th>Актуальный адрес</th>
+            <th>Номер телефона</th>
+            <th>Общежитие</th>
+            <th>id_group</th>
+            <th>id_healthGroup</th>
+            <th>id_actives</th>
+            <th>id_status</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for student in students %}
+            <tr>
+                <td class="col-index">{{ loop.index }}</td>
+                <td>{{ student.surname }}</td>
+                <td>{{ student.name }}</td>
+                <td>{{ student.patronymic }}</td>
+                <td class="col-date">{{ student.birthday|date('d.m.Y') }}</td>
+                <td>{{ student.address }}</td>
+                <td>{{ student.actualAddress }}</td>
+                <td>{{ student.phone }}</td>
+                <td>{{ student.hostel }}</td>
+                <td>{{ student.group.name }}</td>
+                <td>{{ student.healthgroup.name }}</td>
+                <td>{{ student.active.name }}</td>
+                <td>{{ student.status.name }}</td>
+                <td class="actions">
+                    <a class="btn-adm"
+                       href="{{ path('app_cms_student_update', {student: student.id}) }}">Редактировать</a>
+                    <a class="btn-adm"
+                       href="{{ path('app_cms_student_delete', {student: student.id}) }}">Удалить</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
