@@ -18,9 +18,17 @@
 </head>
 <body>
 <div class="wrapper">
+
+    {% include("/components/header.html.twig") %}
+    {% include("/components/sidebar.html.twig") %}
+
     <div class="container">
         {% block body %}{% endblock %}
     </div>
+
+    {% include("/components/footer.html.twig") %}
+
 </div>
 </body>
+
 </html>

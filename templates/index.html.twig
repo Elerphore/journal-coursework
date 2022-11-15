@@ -1,29 +1,10 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <header>
-        <nav class="nav">
-            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                <p style="font-size: 18px;">
-                    Добро пожаловать, <b>{{ app.user.name }}</b>
-                    <a class="link link-logout nav__link" href="{{ logout_path() }}">Выйти</a>
-                </p>
-            {% else %}
-                <a class="link nav__link" href="{{ path('login') }}">Вход в систему</a>
-            {% endif %}
-        </nav>
-    </header>
-
     <div class="journal">
-        <div class="journal__intro">
+        <div class="journal__intro" id="main">
             <h2 class="journal__inner-title">Журнал</h2>
             <span class="journal__inner-subtitle">для классных руководителей</span>
-            {% if is_granted('ROLE_INSTRUCTOR') %}
-                <a class="main-btn journal__inner-button" href="{{ path('app_journal_index') }}">Просмотр отчетов</a>
-            {% endif %}
-            {% if is_granted('ROLE_ADMIN') %}
-                <a class="main-btn journal__inner-button" href="{{ path('app_cms_index') }}">Просмотр таблиц</a>
-            {% endif %}
         </div>
     </div>
 {% endblock %}

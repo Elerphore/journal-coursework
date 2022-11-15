@@ -16,10 +16,10 @@ select {
     display: inline-block;
     text-transform: uppercase;
     padding: 10px 60px;
-    background-color: rgba(28,28,28,0);
+    background-color: rgba(0,0,0,0);
     text-decoration: none;
     color: white;
-    border: 2px solid #fff;
+    border: 2px solid #8c8273;
     letter-spacing: 2px;
     transition: .3s background-color linear;
     cursor: pointer;
@@ -27,6 +27,10 @@ select {
 
 .form-group {
     margin: 1em 0;
+}
+
+.form-group label {
+    color: #fff;
 }
 
 .form-group .btn {
@@ -44,8 +48,13 @@ label.required::after {
     color: #e61919;
 }
 
+.btn-primary {
+    border-color: #8c8273 !important;
+}
+
 .btn-primary:hover {
-    background-color: #4CAF50;
+    background-color: #000;
+    color: #fff;
     transition-duration: .3s;
 }
 
@@ -62,4 +71,19 @@ label.required::after {
 .form-group-button {
     display: flex;
     flex: 0 1;
+}
+
+legend {
+    font-size: 20pt;
+    text-align: center;
+    color: #000;
+}
+
+.input-text-field {
+    font-size: 12pt;
+    padding: 10px 5px;
+    border: 1px solid #000;
+    border-radius: 4px;
+    outline: none;
+    margin-top: 5px;
 }

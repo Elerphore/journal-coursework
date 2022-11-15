@@ -31,8 +31,7 @@ class GroupVoter extends Voter
 
     protected function supports(string $attribute, $subject): bool
     {
-        return in_array($attribute, [self::VIEW])
-            && $subject instanceof Group;
+        return in_array($attribute, [self::VIEW]) && $subject instanceof Group;
     }
 
     protected function voteOnAttribute(string $attribute, $subject, TokenInterface $token): bool

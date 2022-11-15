@@ -51,13 +51,20 @@ class Group
      */
     private $specialty;
 
+//    /**
+//     * @ORM\ManyToOne(targetEntity=Instructor::class, inversedBy="groups")
+//     * @ORM\JoinColumn(name="id_instructor", nullable=false)
+//     *
+//     * @Assert\NotBlank()
+//     */
+//    private $instructor;
     /**
-     * @ORM\ManyToOne(targetEntity=Instructor::class, inversedBy="groups")
-     * @ORM\JoinColumn(name="id_instructor", nullable=false)
+     * @ORM\ManyToOne(targetEntity=Role::class, inversedBy="groups")
+     * @ORM\JoinColumn(name="id_roles", nullable=false)
      *
      * @Assert\NotBlank()
      */
-    private $instructor;
+    private $roles;
 
     /**
      * @ORM\OneToMany(targetEntity=Classhour::class, mappedBy="group")
@@ -223,5 +230,21 @@ class Group
         }
 
         return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRoles()
+    {
+        return $this->roles;
+    }
+
+    /**
+     * @param mixed $roles
+     */
+    public function setRoles($roles): void
+    {
+        $this->roles = $roles;
     }
 }

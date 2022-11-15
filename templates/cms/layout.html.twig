@@ -1,8 +1,17 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+
+{#    <header>#}
+{#        <div style="height: 50px; position: relative; text-align: center">#}
+{#            <a class="link nav__link return__link" style="position: absolute; right: 0; color: #000" href="/">Назад</a>#}
+{#        </div>#}
+{#    </header>#}
+
 <div class="cms">
+{#    {% if is_granted('ROLE_ADMIN') %}#}
     {{ render(controller('App\\Controller\\CmsController::tables')) }}
+{#    {% endif %}#}
 
     <div class="cms-content">
     {% block content %}

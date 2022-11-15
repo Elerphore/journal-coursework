@@ -11,11 +11,14 @@
 
 <script>
     (function () {
+        console.warn('Start of a function')
+
         let branchElement = document.querySelector('#sel-branch');
         let groupElement = document.querySelector('#sel-group');
         let groupSearchElement = document.querySelector('#group_search');
 
         if (!branchElement) {
+            console.warn(`!branchElement: ${!branchElement}`)
             return;
         }
 
@@ -27,6 +30,8 @@
             try {
                 const source = await fetch(`/journal/groups/${branchElement.value}`);
                 const data = await source.json();
+
+                console.warn("TRY CATCH")
 
                 groups.splice(0, groups.length, ...data.groups);
 
@@ -77,6 +82,7 @@
     $(function () {
         $('#choice').submit(function (e) {
             e.preventDefault();
+            console.warn("submit")
 
             let branch = e.target.elements['sel-group'];
             let form = e.target.elements['sel-form'];

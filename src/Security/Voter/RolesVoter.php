@@ -25,8 +25,7 @@ class RolesVoter extends Voter
 
     protected function supports(string $attribute, $subject): bool
     {
-        return in_array($attribute, [self::EDIT_ROLE, self::DELETE], true)
-            && ($subject === null || $subject instanceof Role);
+        return in_array($attribute, [self::EDIT_ROLE, self::DELETE], true) && ($subject === null || $subject instanceof Role);
     }
 
     protected function voteOnAttribute(string $attribute, $subject, TokenInterface $token): bool

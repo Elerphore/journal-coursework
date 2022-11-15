@@ -31,6 +31,7 @@ class StudentController extends AbstractController
      */
     public function index(): Response
     {
+
         return $this->render('cms/student/list.html.twig', [
             'students' => $this->entityManager->getRepository(Student::class)
                 ->createQueryBuilder('s')
@@ -42,8 +43,45 @@ class StudentController extends AbstractController
                 ->orderBy('s.surname', 'ASC')
                 ->addOrderBy('s.name', 'ASC')
                 ->addOrderBy('s.patronymic', 'ASC')
+                ->where('g.roles = :roles')
+                ->setParameter('roles', $this->getUser()->getId())
                 ->getQuery()
                 ->getResult(),
+        ]);
+    }
+
+    /**
+     * @Route("/filter", name="filter")
+     */
+    public function filter(Request $request): Response
+    {
+        $students = $this->entityManager->getRepository(Student::class)
+            ->createQueryBuilder('s')
+            ->select('s, g, hg, a, st')
+            ->innerJoin('s.group', 'g')
+            ->innerJoin('s.healthgroup', 'hg')
+            ->innerJoin('s.active', 'a')
+            ->innerJoin('s.status', 'st')
+            ->orderBy('s.surname', 'ASC')
+            ->addOrderBy('s.name', 'ASC')
+            ->addOrderBy('s.patronymic', 'ASC')
+            ->where('g.roles = :roles')
+            ->andWhere('(s.name like :name and :name is not null) or :name is null')
+            ->andWhere('(s.surname like :surname and :surname is not null) or :surname is null')
+            ->andWhere('(s.patronymic like :patronymic and :patronymic is not null) or :patronymic is null')
+            ->setParameters(
+                [
+                    'name' => '%'.$request->query->get('name').'%',
+                    'surname' => '%'.$request->query->get('surname').'%',
+                    'patronymic' => '%'.$request->query->get('patronymic').'%',
+                    'roles' => $this->getUser()->getId()
+                ]
+            )
+            ->getQuery()
+            ->getResult();
+
+        return $this->render('cms/student/list.html.twig', [
+            'students' => $students,
         ]);
     }
 

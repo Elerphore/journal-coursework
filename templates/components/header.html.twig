@@ -1,0 +1,19 @@
+{% block header %}
+    <header class="header">
+        <a href="/"><div class="logo"></div></a>
+
+        <nav class="header-nav">
+            <a href="{{ path('app_cms_student_index') }}" class="link nav__link">Главная</a>
+            <a href="{{ path('app_journal_index') }}" class="link nav__link">Занятия</a>
+        </nav>
+
+        <nav class="header-nav">
+            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                <p class="link nav__link">{{ app.user.name }}</p>
+            {% else %}
+                <a class="link nav__link" href="{{ path('login') }}">Войти</a>
+            {% endif %}
+        </nav>
+
+    </header>
+{% endblock %}

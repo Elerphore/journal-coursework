@@ -1,0 +1,52 @@
+<aside id="sidebar">
+    <div class="sidebar_content sidebar_head">
+        <h1>
+            <a href="/"><div class="logo"></div></a>
+        </h1>
+    </div>
+    <div class="sidebar_content sidebar_body">
+        <nav class="side_navlinks">
+            <ul>
+                {% if is_granted('ROLE_INSTRUCTOR') or is_granted('ROLE_TEACHER') %}
+                    <li><a class="link nav__link" href="{{ path('app_journal_index') }}">Просмотр отчетов</a></li>
+                {% endif %}
+                {% if is_granted('ROLE_ADMIN') %}
+                    <li><a class="link nav__link" href="{{ path('app_cms_index') }}">Просмотр таблиц</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+    </div>
+    <div class="sidebar_content sidebar_foot">
+        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+            <a class="link nav__link" href="{{ logout_path() }}">Выйти</a>
+        {% endif %}
+    </div>
+</aside>
+
+<div class="sidebar_toggler">
+    <span></span>
+    <span></span>
+    <span></span>
+</div>
+
+<script>
+    /* Set the width of the side navigation to 250px */
+    /* Sidebar */
+
+    const sidebar = document.querySelector('#sidebar');
+    const sidebarToggler = document.querySelector('.sidebar_toggler');
+
+
+    // Toggling the Sidebar
+    sidebarToggler.addEventListener('click', () => {
+        sidebar.classList.toggle('show');
+    });
+
+
+    // Closing the Sidebar on clicking Outside and on the Sidebar-Links
+    window.addEventListener('click', (e) => {
+        if (e.target.id !== 'sidebar' && e.target.className !== 'sidebar_toggler') {
+            sidebar.classList.remove('show');
+        }
+    });
+</script>

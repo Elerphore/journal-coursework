@@ -4,54 +4,94 @@
     Students
 {% endblock %}
 
+
 {% block table_create_btn %}
-    <a class="btn-adm" href="{{ path('app_cms_student_create') }}">Добавить</a>
+    {% if is_granted('ROLE_ADMIN') %}
+        <a class="btn-adm" href="{{ path('app_cms_student_create') }}">Добавить</a>
+    {% endif %}
 {% endblock %}
 
+
 {% block table_content %}
-    <table class="table">
-        <thead>
-        <tr>
-            <th>#</th>
-            <th>Фамилия</th>
-            <th>Имя</th>
-            <th>Отчество</th>
-            <th>День рождения</th>
-            <th>Адрес</th>
-            <th>Актуальный адрес</th>
-            <th>Номер телефона</th>
-            <th>Общежитие</th>
-            <th>id_group</th>
-            <th>id_healthGroup</th>
-            <th>id_actives</th>
-            <th>id_status</th>
-            <th></th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for student in students %}
+
+    <div style="display: flex; flex-wrap: wrap; gap: 20px">
+        <form style="flex-basis: 100%" method="get" action="{{  path('app_cms_student_filter')  }}">
+            <div class="form-group">
+                <label for="surname">Фамилия</label>
+                <input type="text" name="surname" id="surname">
+            </div>
+
+            <div class="form-group">
+                <label for="name">Имя</label>
+                <input type="text" name="name" id="name">
+            </div>
+
+            <div class="form-group">
+                <label for="patronymic">Отчество</label>
+                <input name="patronymic" id="patronymic" type="text">
+            </div>
+
+            <div class="form-group">
+                <input type="submit" class="btn_auth" name="btn" value="Обновить">
+            </div>
+        </form>
+
+        <table class="table">
+            <thead>
             <tr>
-                <td class="col-index">{{ loop.index }}</td>
-                <td>{{ student.surname }}</td>
-                <td>{{ student.name }}</td>
-                <td>{{ student.patronymic }}</td>
-                <td class="col-date">{{ student.birthday|date('d.m.Y') }}</td>
-                <td>{{ student.address }}</td>
-                <td>{{ student.actualAddress }}</td>
-                <td>{{ student.phone }}</td>
-                <td>{{ student.hostel }}</td>
-                <td>{{ student.group.name }}</td>
-                <td>{{ student.healthgroup.name }}</td>
-                <td>{{ student.active.name }}</td>
-                <td>{{ student.status.name }}</td>
-                <td class="actions">
-                    <a class="btn-adm"
-                       href="{{ path('app_cms_student_update', {student: student.id}) }}">Редактировать</a>
-                    <a class="btn-adm"
-                       href="{{ path('app_cms_student_delete', {student: student.id}) }}">Удалить</a>
-                </td>
+                <th>#</th>
+                <th>Фамилия</th>
+                <th>Имя</th>
+                <th>Отчество</th>
+                <th>День рождения</th>
+                <th>Адрес</th>
+                <th>Актуальный адрес</th>
+                <th>Номер телефона</th>
+                <th>Общежитие</th>
+                <th>Группа</th>
+                <th>Группа здоровья</th>
+                <th>Активити</th>
+                <th>Статус</th>
+                <th>Куратор</th>
+                {% if is_granted('ROLE_ADMIN') %}
+                    <th></th>
+                {% endif %}
             </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+            {% for student in students %}
+                <tr>
+                    <td class="col-index">{{ loop.index }}</td>
+                    <td>{{ student.surname }}</td>
+                    <td>{{ student.name }}</td>
+                    <td>{{ student.patronymic }}</td>
+                    <td class="col-date">{{ student.birthday|date('d.m.Y') }}</td>
+                    <td>{{ student.address }}</td>
+                    <td>{{ student.actualAddress }}</td>
+                    <td>{{ student.phone }}</td>
+                    <td>{{ student.hostel }}</td>
+                    <td>{{ student.group.name }}</td>
+                    <td>{{ student.healthgroup.name }}</td>
+                    <td>{{ student.active.name }}</td>
+                    <td>{{ student.status.name }}</td>
+                    <td>{{ student.group.roles.name }}</td>
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <td class="actions">
+                            <a class="btn-adm"
+                               href="{{ path('app_cms_student_update', {student: student.id}) }}">Редактировать</a>
+                            <a class="btn-adm"
+                               href="{{ path('app_cms_student_delete', {student: student.id}) }}">Удалить</a>
+                        </td>
+                    {% endif %}
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            console.warn("loaded")
+        });
+    </script>
 {% endblock %}

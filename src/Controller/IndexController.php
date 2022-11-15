@@ -12,6 +12,7 @@ class IndexController extends AbstractController
      */
     public function index()
     {
-        return $this->render('index.html.twig');
+//        return $this->render('index.html.twig');
+        return $this->redirectToRoute('app_journal_index', ['group' => 2]);
     }
 }

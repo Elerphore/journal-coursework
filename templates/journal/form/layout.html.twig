@@ -11,15 +11,8 @@
 {% endblock %}
 
 {% block body %}
-    <header>
-        <div style="height: 50px; position: relative; text-align: center">
-            <a class="link nav__link" style="position: absolute; right: 0" href="/">Назад</a>
-        </div>
-    </header>
-
     <div id="form_content">
         {{ include('journal/_choices.html.twig') }}
-
         {% block content %}
             {% block form %}{% endblock %}
 

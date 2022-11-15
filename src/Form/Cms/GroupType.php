@@ -39,18 +39,18 @@ class GroupType extends AbstractType
                 },
                 'placeholder' => isset($options['data']) ? null : 'Выберите значение',
             ])
-            ->add('instructor', EntityType::class, [
-                'label' => 'id_instructor',
-                'class' => Instructor::class,
-                'query_builder' => function (InstructorRepository $repository) {
-                    return $repository->createQueryBuilder('i')
-                        ->orderBy('i.surname', 'ASC')
-                        ->addOrderBy('i.name', 'ASC')
-                        ->addOrderBy('i.patronymic', 'ASC');
-                },
-                'choice_label' => 'fio',
-                'placeholder' => isset($options['data']) ? null : 'Выберите значение',
-            ])
+//            ->add('instructor', EntityType::class, [
+//                'label' => 'id_instructor',
+//                'class' => Instructor::class,
+//                'query_builder' => function (InstructorRepository $repository) {
+//                    return $repository->createQueryBuilder('i')
+//                        ->orderBy('i.surname', 'ASC')
+//                        ->addOrderBy('i.name', 'ASC')
+//                        ->addOrderBy('i.patronymic', 'ASC');
+//                },
+//                'choice_label' => 'fio',
+//                'placeholder' => isset($options['data']) ? null : 'Выберите значение',
+//            ])
             ->add('submit', SubmitType::class, [
                 'label' => isset($options['data']) ? 'Обновить' : 'Добавить',
             ]);
