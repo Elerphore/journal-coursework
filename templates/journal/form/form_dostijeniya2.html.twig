@@ -9,27 +9,48 @@
 {% endblock %}
 
 {% block table %}
-    <table class="journal__table journal__table-form15">
-        <thead>
-        <tr>
-            <th>Дата, время проведения</th>
-            <th>Мероприятие</th>
-            <th>Результат</th>
-            <th>ФИО участника</th>
-            
-        </tr>
-        </thead>
-        <tbody>
+
+    <form id="filter_form" style="flex-basis: 100%">
+        <div class="form-group">
+            <label for="surname">Фамилия</label>
+            <input type="text" name="surname" id="surname">
+        </div>
+
+        <div class="form-group">
+            <label for="name">Имя</label>
+            <input type="text" name="name" id="name">
+        </div>
+
+        <div class="form-group">
+            <label for="patronymic">Отчество</label>
+            <input name="patronymic" id="patronymic" type="text">
+        </div>
+
+        <div class="form-group">
+            <input type="submit" class="btn_auth" name="btn" value="Обновить">
+        </div>
+    </form>
+
+    <div class="out-block">
         {% for participation in participations %}
-        <tr>
-            <td class="col_date">{{ participation.event.date|date('d.m.Y') }}</td>
-            <td>{{ participation.event.name }}</td>
-            <td>{{ participation.result }}</td>
-            <td>{{ participation.student.fio }}</td>
-        </tr>
+            <div class="out-row-block">
+                <p class="col_date">Дата, время проведения: {{ participation.event.date|date('d.m.Y') }}</p>
+                <p>Мероприятие: {{ participation.event.name }}</p>
+                <p>Результат: {{ participation.result }}</p>
+                <p>ФИО участника: {{ participation.student.fio }}</p>
+            </div>
         {% endfor %}
-        </tbody>
-    </table>
+    </div>
+
+    <script>
+        $(function () {
+            $('#filter_form').submit(function (e) {
+                e.preventDefault();
+                console.warn("submit")
+            });
+        });
+    </script>
+
 {% endblock %}
 
 {% block stylesheets %}

@@ -8,30 +8,20 @@
 {% endblock %}
 
 {% block table %}
-    <table class="journal__table journal__table-form15">
-        <thead>
-        <tr>
-            <th>Месяц</th>
-            <th>Дата</th>
-            <th>Тематика</th>
-            <th>Результат кол-во присутствующих</th>
-        </tr>
-        </thead>
-        <tbody>
+    <div class="out-block">
         {% for month, monthGroup in classhours|group_by(classhour => classhour.month) %}
             {% for classhour in monthGroup %}
-                <tr>
+                <div class="out-row-block">
                     {% if loop.index0 == 0 %}
-                        <td class="col_month" rowspan="{{ monthGroup|length }}">{{ month }}</td>
+                        <p>Месяц: {{ month }}</p>
                     {% endif %}
-                    <td class="col_date">{{ classhour.date|date('d.m.Y') }}</td>
-                    <td>{{ classhour.subject }}</td>
-                    <td>{{ classhour.qty }}</td>
-                </tr>
+                    <p>Дата: {{ classhour.date|date('d.m.Y') }}</p>
+                    <p>Тематика: {{ classhour.subject }}</p>
+                    <p>Результат кол-во присутствующих: {{ classhour.qty }}</p>
+                </div>
             {% endfor %}
         {% endfor %}
-        </tbody>
-    </table>
+    </div>
 {% endblock %}
 
 {% block stylesheets %}

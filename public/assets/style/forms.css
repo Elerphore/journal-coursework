@@ -16,10 +16,10 @@ select {
     display: inline-block;
     text-transform: uppercase;
     padding: 10px 60px;
-    background-color: rgba(0,0,0,0);
+    background-color: rgba(28,28,28,0);
     text-decoration: none;
     color: white;
-    border: 2px solid #8c8273;
+    border: 2px solid #fff;
     letter-spacing: 2px;
     transition: .3s background-color linear;
     cursor: pointer;
@@ -30,7 +30,7 @@ select {
 }
 
 .form-group label {
-    color: #fff;
+    color: #000;
 }
 
 .form-group .btn {
@@ -50,10 +50,11 @@ label.required::after {
 
 .btn-primary {
     border-color: #8c8273 !important;
+    color: #000;
 }
 
 .btn-primary:hover {
-    background-color: #000;
+    background-color: #4CAF50;
     color: #fff;
     transition-duration: .3s;
 }

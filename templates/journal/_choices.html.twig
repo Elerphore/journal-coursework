@@ -13,6 +13,8 @@
     (function () {
         console.warn('Start of a function')
 
+        let surname = document.querySelector("#surname");
+
         let branchElement = document.querySelector('#sel-branch');
         let groupElement = document.querySelector('#sel-group');
         let groupSearchElement = document.querySelector('#group_search');
@@ -29,6 +31,9 @@
 
             try {
                 const source = await fetch(`/journal/groups/${branchElement.value}`);
+
+                console.warn(source)
+
                 const data = await source.json();
 
                 console.warn("TRY CATCH")

@@ -5,26 +5,37 @@
 {% endblock %}
 
 {% block table %}
-    <table class="journal__table journal__table-form15">
-        <thead>
-        <tr>
-            <th>№</th>
-            <th>ФИО</th>
-            <th>Группа здоровья</th>
-            <th>Рекомендации</th>
-        </tr>
-        </thead>
-        <tbody>
+
+    <form style="flex-basis: 100%" method="get" action="{{  path('app_cms_student_filter')  }}">
+        <div class="form-group">
+            <label for="surname">Фамилия</label>
+            <input type="text" name="surname" id="surname">
+        </div>
+
+        <div class="form-group">
+            <label for="name">Имя</label>
+            <input type="text" name="name" id="name">
+        </div>
+
+        <div class="form-group">
+            <label for="patronymic">Отчество</label>
+            <input name="patronymic" id="patronymic" type="text">
+        </div>
+
+        <div class="form-group">
+            <input type="submit" class="btn_auth" name="btn" value="Обновить">
+        </div>
+    </form>
+
+    <div class="out-block">
         {% for student in students %}
-            <tr>
-                <td class="col_row">{{ loop.index }}</td>
-                <td>{{ student.fio }}</td>
-                <td>{{ student.healthgroup.name }}</td>
-                <td>{{ student.healthgroup.recommendations }}</td>
-            </tr>
+            <div class="out-row-block">
+                <p>ФИО: {{ student.fio }}</p>
+                <p>Группа здоровья: {{ student.healthgroup.name }}</p>
+                <p>Рекомендации: {{ student.healthgroup.recommendations }}</p>
+            </div>
         {% endfor %}
-        </tbody>
-    </table>
+    </div>
 {% endblock %}
 
 {% block stylesheets %}

@@ -9,9 +9,9 @@
 {#    </header>#}
 
 <div class="cms">
-{#    {% if is_granted('ROLE_ADMIN') %}#}
-    {{ render(controller('App\\Controller\\CmsController::tables')) }}
-{#    {% endif %}#}
+    {% if is_granted('ROLE_ADMIN') %}
+        {{ render(controller('App\\Controller\\CmsController::tables')) }}
+    {% endif %}
 
     <div class="cms-content">
     {% block content %}
