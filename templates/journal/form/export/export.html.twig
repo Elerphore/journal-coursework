@@ -1,0 +1,55 @@
+{% apply spaceless %}
+{% apply inline_css %}
+<html lang="ru">
+<head>
+    {% block stylesheets %}
+    <style>
+        body {
+            font-size: 12pt;
+        }
+
+        body > p {
+            text-align: center;
+            font-size: 16pt;
+            font-weight: bold;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px black solid;
+        }
+
+        th {
+            font-size: 14pt;
+            font-weight: bold;
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        td {
+            text-align: left;
+            vertical-align: top;
+        }
+
+        .col_row,
+        .col_month,
+        .col_date {
+            text-align: center;
+        }
+
+        .col_month {
+            vertical-align: middle;
+        }
+    </style>
+    {% endblock %}
+</head>
+<body>
+{% block form %}{% endblock %}
+{% block table %}{% endblock %}
+</body>
+{% endapply %}
+{% endapply %}

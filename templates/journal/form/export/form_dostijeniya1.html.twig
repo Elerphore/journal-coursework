@@ -1,0 +1,63 @@
+{% extends export|default(false) ? 'journal/form/export.html.twig' : 'journal/form/layout.html.twig' %}
+
+{% block form %}
+    <p>Учет индивидуальных достижений обучающихся {{ currentAcademicYear.id - group.year + 1 }} курс {{ currentAcademicYear.id }} учебный год</p>
+{% endblock %}
+
+{% block table %}
+    <table class="journal__table journal__table-form15">
+        <thead>
+        <tr>
+            <th>№</th>
+            <th>ФИО</th>
+            {% for typeOfEvent in typeOfEvents %}
+                <th>{{ typeOfEvent.name }}</th>
+            {% endfor %}
+        </tr>
+        </thead>
+        <tbody>
+        {% for student in students %}
+            <tr>
+                <td class="col_row">{{ loop.index }}</td>
+                <td>{{ student.fio }}</td>
+                {% for typeOfEvent in typeOfEvents %}
+                    <td>{{
+                        events[student.id][typeOfEvent.id]
+                        |default([])
+                        |map(participation => participation.event.name)
+                        |join(', ')
+                    }}</td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+
+    {% if export|default(false) %}
+        <style>
+            th {
+                font-size: 12pt;
+            }
+
+            td {
+                font-size: 10pt;
+            }
+
+            tr > :nth-child(1) {
+                width: 50px;
+            }
+
+            tr > :nth-child(2) {
+                width: 15%;
+            }
+
+            tr > :nth-child(n+3) {
+                width: {{ (80 / typeOfEvents|length)|round(2) }}%;
+            }
+        </style>
+    {% endif %}
+{% endblock %}

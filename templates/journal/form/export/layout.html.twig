@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="/assets/js/autocomplete-10.2.7.min.js"></script>
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="/assets/style/autocomplete.min.css">
+{% endblock %}
+
+{% block body %}
+    <header>
+        <div style="height: 50px; position: relative; text-align: center">
+            <a class="link nav__link" style="position: absolute; right: 0" href="/">Назад</a>
+        </div>
+    </header>
+
+    <div id="form_content">
+        {{ include('journal/_choices.html.twig') }}
+
+        {% block content %}
+            {% block form %}{% endblock %}
+
+            <a
+                href="{{ path('app_journal_export', {group: group.id, form: currentFormId}) }}"
+                class="btn btn-primary"
+                style="margin: 1em"
+                target="_blank"
+            >Экспорт в PDF</a>
+
+            <div class="table-wrapper">
+                {% block table %}{% endblock %}
+            </div>
+        {% endblock %}
+    </div>
+{% endblock %}

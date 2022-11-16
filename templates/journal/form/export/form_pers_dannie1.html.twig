@@ -1,0 +1,250 @@
+{% extends export|default(false) ? 'journal/form/export.html.twig' : 'journal/form/layout.html.twig' %}
+
+{% block form %}
+    <p>Сводная информация по группе {{ currentAcademicYear.id }} учебный год</p>
+{% endblock %}
+
+{% block table %}
+    <table class="journal__table journal__table-form15">
+        <thead>
+        <tr nobr="true">
+            <th>№</th>
+            <th>Показатели</th>
+            <th>{{ (currentAcademicYear.id - group.year) * 2 + 1 }} семестр</th>
+            <th>{{ (currentAcademicYear.id - group.year) * 2 + 2 }} семестр</th>
+            <th>Год</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr nobr="true">
+            <td class="col_row">1.</td>
+            <td>Численность группы из них юн. \ дев.</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+
+        <tr nobr="true">
+            <td class="col_row">2.</td>
+            <td>Проживают в общежитии</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+
+        <tr nobr="true">
+            <td class="col_row">3.</td>
+            <td>Проживают у родственников \ на квартире</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+
+        <tr nobr="true">
+            <td class="col_row" rowspan="2">4.</td>
+            <td>Успеваемость:</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr nobr="true">
+            <td>- абсолютная \ качественная</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+
+        <tr nobr="true">
+            <td class="col_row" rowspan="2">5.</td>
+            <td>Пропуски занятий:</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr nobr="true">
+            <td>- по уважительной причине \ без причины</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+
+        <tr nobr="true">
+            <td class="col_row">6.</td>
+            <td>Количество студентов для пед.учета (уклоняющиеся от обучения)</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+
+        <tr nobr="true">
+            <td class="col_row" rowspan="10">7.</td>
+            <td>Работа по повышению мотивации на обучение:</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+
+        <tr nobr="true">
+            <td>- пед.учет (количество)</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+
+        <tr nobr="true">
+            <td>- индивидуальные беседы</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+
+        <tr nobr="true">
+            <td>- встречи с родителями</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+
+        <tr nobr="true">
+            <td>- беседы с зав.отделением</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+
+        <tr nobr="true">
+            <td>- работа с педагогом психологом</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+
+        <tr nobr="true">
+            <td>- приглашение на заседание Совета профилактики</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+
+        <tr nobr="true">
+            <td>- обращение по месту работы родителей</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+
+        <tr nobr="true">
+            <td>- обращение к инспектору ПДН</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+
+        <tr nobr="true">
+            <td>- обращение в КДН</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+
+        <tr nobr="true">
+            <td class="col_row">8.</td>
+            <td>Количество студентов, состоящих на учете в ПДН</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+
+        <tr nobr="true">
+            <td class="col_row" rowspan="3">9.</td>
+            <td>Количество студентов из числа лиц детей сирот и детей ОБПР, из них:</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+
+        <tr nobr="true">
+            <td>- ПГО</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+
+        <tr nobr="true">
+            <td>- НПГО</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+
+        <tr nobr="true">
+            <td class="col_row">10.</td>
+            <td>Количество студентов с ОВЗ</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+
+        <tr nobr="true">
+            <td class="col_row">11.</td>
+            <td>Количество посещений общежития</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+
+        <tr nobr="true">
+            <td class="col_row">12.</td>
+            <td>Количество проведенных классных часов</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+
+        <tr nobr="true">
+            <td class="col_row">13.</td>
+            <td>Количество родительских собраний, явка родителей</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+
+        <tr nobr="true">
+            <td class="col_row">14.</td>
+            <td>Участие студентов группы во внеучебной деятельности (количество мероприятий \ охват)</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+
+        </tbody>
+    </table>
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+
+    {% if export|default(false) %}
+        <style>
+            tr > :nth-last-child(5) {
+                width: 8%;
+            }
+
+            tr > :nth-last-child(4) {
+                width: 52%;
+            }
+
+            tr > :nth-last-child(3) {
+                width: 15%;
+            }
+
+            tr > :nth-last-child(2) {
+                width: 15%;
+            }
+
+            tr > :nth-last-child(1) {
+                width: 10%;
+            }
+        </style>
+    {% endif %}
+{% endblock %}

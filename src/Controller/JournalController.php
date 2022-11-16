@@ -103,7 +103,7 @@ class JournalController extends AbstractController
 
         $formData = $formDataService->getData($group);
 
-        $template = "journal/form/{$form}.html.twig";
+        $template = "journal/form/export/{$form}.html.twig";
 
         $html = $this->render($template, array_merge([
             'group' => $group,
