@@ -32,6 +32,29 @@ class StudentController extends AbstractController
     public function index(): Response
     {
 
+        $auth_checker = $this->get('security.authorization_checker');
+
+        $groupId = null;
+        $userId = null;
+
+        if($this->getUser()->getSelectedGroup() == null && !$auth_checker->isGranted('ROLE_ADMIN')) {
+            return $this->redirectToRoute('app_journal_group_selection');
+        } else if($auth_checker->isGranted('ROLE_ADMIN')) {
+            return $this->redirectToRoute('app_journal_index', ['group' => 2]);
+        }
+
+        if($auth_checker->isGranted('ROLE_ADMIN'))
+        {
+            $userId = null;
+            $groupId = null;
+        }
+        else
+        {
+            $userId = $this->getUser()->getId();
+            $groupId = $this->getUser()->getSelectedGroup()->getId();
+        }
+
+
         return $this->render('cms/student/list.html.twig', [
             'students' => $this->entityManager->getRepository(Student::class)
                 ->createQueryBuilder('s')
@@ -43,8 +66,10 @@ class StudentController extends AbstractController
                 ->orderBy('s.surname', 'ASC')
                 ->addOrderBy('s.name', 'ASC')
                 ->addOrderBy('s.patronymic', 'ASC')
-                ->where('g.roles = :roles')
-                ->setParameter('roles', $this->getUser()->getId())
+                ->where('g.roles = :roles or :roles is null')
+                ->andWhere('g.id = :userActiveGroup or :userActiveGroup is null')
+                ->setParameter('roles', $userId)
+                ->setParameter('userActiveGroup', $groupId)
                 ->getQuery()
                 ->getResult(),
         ]);

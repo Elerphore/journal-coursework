@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1 style="color: black; margin-bottom: 10px">Выбор вашей группы</h1>
+    <form action="{{ path('app_journal_set_active_group') }}" method="post">
+        <select id="selected_group" name="_selected_group">
+            {% for group in groups %}
+                <option value="{{ group.id }}">Группа: {{ group.name }}, Год: {{ group.year }}</option>
+            {% endfor %}
+        </select>
+
+        <div class="form-group">
+            <button class="btn_auth" style="width: 100%" type="submit">Выбрать группу</button>
+        </div>
+
+    </form>
+{% endblock %}

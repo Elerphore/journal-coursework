@@ -3,17 +3,22 @@
         <a href="/"><div class="logo"></div></a>
 
         <nav class="header-nav">
-            <a href="{{ path('app_cms_student_index') }}" class="link nav__link">Главная</a>
-            <a href="{{ path('app_journal_index') }}" class="link nav__link">Занятия</a>
+            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+            <a href="{{ path('app_cms_student_index') }}" class="header-nav_item link"><p>Главная</p></a>
+            <a href="{{ path('app_journal_index') }}" class="header-nav_item link"><p>Занятия</p></a>
+
+            {% if not is_granted('ROLE_ADMIN') %}
+                <a href="{{ path('app_journal_main') }}" class="header-nav_item link"><p>Журнал</p></a>
+            {% endif %}
+
+            {% endif %}
         </nav>
 
-        <nav class="header-nav">
             {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                <p class="link nav__link">{{ app.user.name }}</p>
+                <span class="link">{{ app.user.name }} : {{ app.user.selectedGroup != null ? app.user.selectedGroup.name : '' }}</span>
             {% else %}
                 <a class="link nav__link" href="{{ path('login') }}">Войти</a>
             {% endif %}
-        </nav>
 
     </header>
 {% endblock %}

@@ -70,6 +70,11 @@ class Role implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $role;
 
+    /**
+     * @ORM\OneToOne(targetEntity=Group::class, cascade={"persist", "remove"})
+     */
+    private $selectedGroup;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -150,5 +155,17 @@ class Role implements UserInterface, PasswordAuthenticatedUserInterface
     public function getUsername(): ?string
     {
         return $this->getUserIdentifier();
+    }
+
+    public function getSelectedGroup(): ?Group
+    {
+        return $this->selectedGroup;
+    }
+
+    public function setSelectedGroup(?Group $selectedGroup): self
+    {
+        $this->selectedGroup = $selectedGroup;
+
+        return $this;
     }
 }

@@ -1,0 +1,192 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+
+    <div class="main-block">
+
+        <div id="main-student-block" class="main-block__student">
+
+        </div>
+
+        <div class="main-block__group">
+
+            <div class="main-block_item main-block__group_itself">
+
+                <h1>Информация о группе</h1>
+
+                <p>Название: {{ activeGroup.name }}</p>
+                <p>Год: {{ activeGroup.year }}</p>
+            </div>
+
+
+            <div class="main-block_item main-block__group_classhours">
+
+                <h1>Классные часы</h1>
+
+                {% for classHour in activeGroup.classhours %}
+                    <div style="margin-bottom: 15px; font-size: 16pt;">
+                        <p>Месяц: {{ classHour.month }}</p>
+                        <p>Дата: {{ classHour.date | date('Y-m-d') }}</p>
+                        <p>Название: {{ classHour.subject }}</p>
+                        <p>Количество: {{ classHour.qty }}</p>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <div class="main-block_item main-block__group_classhours">
+
+                <h1>Родительские собрания</h1>
+
+                {% for meeting in activeGroup.parentsMeetings %}
+                    <div style="margin-bottom: 15px; font-size: 16pt;">
+                        <p>Месяц: {{ meeting.month }}</p>
+                        <p>Дата: {{ meeting.date | date('Y-m-d') }}</p>
+                        <p>Тема: {{ meeting.subject }}</p>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <div class="main-block_item main-block__group_classhours">
+
+                <h1>Достижения группы</h1>
+
+                {% for achivment in groupAchivements %}
+                    <div style="margin-bottom: 15px; font-size: 16pt;">
+                        <p>Результат: {{ achivment.result }}</p>
+                        <p>Группа: {{ achivment.groupName }}</p>
+                        <p>Событие: {{ achivment.eventName }}</p>
+                        <p>Студент: {{ achivment.studentName }} : {{ achivment.studentSurname }}</p>
+                    </div>
+                {% endfor %}
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <script defer>
+        let mainTag = document.getElementById("main-student-block");
+
+        let studentInfo =
+            `
+                <div style="display: flex; width: 100%; gap: 10px;">
+                    <button style="flex-basis: 50%" onclick="changeView('info')" id="button-info" class="btn_selectable_active">Информация</button>
+                    <button style="flex-basis: 50%" onclick="changeView('achive')" id="button-achive" class="btn_selectable">Достижения</button>
+                </div>
+
+                <form style="flex-basis: 100%" action="{{ path('app_journal_main') }}" method="post">
+                    <div class="form-group">
+                        <select id="selected_group" name="_selected_student">
+                            {% for student in students %}
+                                <option value="{{ student.id }}">Студент: {{ student.name }} {{ student.surname }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <button style="width: 100%;" class="btn_auth" type="submit">Выбрать студента</button>
+                    </div>
+                </form>
+
+                {% if activeStudent is not null %}
+                    <div class="main-block_item main-block__student_itself">
+                        <h1>Студент</h1>
+
+                        <p>Имя: {{ activeStudent.name }}</p>
+                        <p>Фамилия: {{ activeStudent.surname }}</p>
+                        <p>Отчество: {{ activeStudent.patronymic }}</p>
+                    </div>
+
+                    <div class="main-block_item main-block__student_parents">
+
+                        <h1>Родители</h1>
+
+                        {% for studentParent in activeStudent.studentParents %}
+                            <div style="margin-bottom: 15px; font-size: 16pt;">
+                                <p>Имя: {{ studentParent.parent.name }}</p>
+                                <p>Фамилия: {{ studentParent.parent.surname }}</p>
+                                <p>Отчество: {{ studentParent.parent.patronymic }}</p>
+                            </div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="main-block_item main-block__student_healthgroup">
+
+                        <h1>Группа здоровья</h1>
+
+                        <p>Имя группы здоровья: {{ activeStudent.healthGroup.name }}</p>
+                        <p>Описание группы здоровья: {{ activeStudent.healthGroup.description }}</p>
+                        <p>Рекомендации группы здоровья: {{ activeStudent.healthGroup.recommendations }}</p>
+                    </div>
+
+                    <div class="main-block_item main-block__student_healthgroup">
+
+                        <h1>Адресс студента</h1>
+
+                        <p>Адрес: {{ activeStudent.address }}</p>
+                        <p>Адрес проживания: {{ activeStudent.actualAddress }}</p>
+                    </div>
+                    {% else %}
+                        <h1>Выберите студента</h1>
+                    {% endif %}`
+
+        mainTag.innerHTML = studentInfo
+
+
+        function changeView(type) {
+            console.warn(type)
+
+            if (type === 'info') {
+                mainTag.innerHTML = studentInfo
+                document.getElementById("button-achive").className = 'btn_selectable';
+                document.getElementById("button-info").className = 'btn_selectable_active';
+
+            } else if (type === 'achive') {
+                mainTag.innerHTML =
+                    `
+                <div style="display: flex; width: 100%; gap: 10px;">
+                    <button style="flex-basis: 50%" onclick="changeView('info')" id="button-info" class="btn_selectable_active">Информация</button>
+                    <button style="flex-basis: 50%" onclick="changeView('achive')" id="button-achive" class="btn_selectable">Достижения</button>
+                </div>
+
+                <form style="flex-basis: 100%" action="{{ path('app_journal_main') }}" method="post">
+                    <div class="form-group">
+                        <select id="selected_group" name="_selected_student">
+                            {% for student in students %}
+                                <option value="{{ student.id }}">Студент: {{ student.name }} {{ student.surname }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <button style="width: 100%;" class="btn_auth" type="submit">Выбрать студента</button>
+                    </div>
+                </form>
+                    {% if activeStudent is not null %}
+
+                    <div class="main-block_item main-block__student_itself">
+
+                        <h1>Достижения студента {{ activeStudent.name }} {{ activeStudent.surname }}</h1>
+
+                        {% for participation in activeStudent.eventParticipations %}
+                            <div style="margin-bottom: 15px; font-size: 16pt;">
+                                <p>Событие: {{ participation.event.name }}</p>
+                                <p>Результат: {{ participation.result }}</p>
+                            </div>
+                        {% endfor %}
+                    </div>
+
+                    {% else %}
+                        <h1>Выберите студента</h1>
+                    {% endif %}
+                    `
+
+                document.getElementById("button-info").className = 'btn_selectable';
+                document.getElementById("button-achive").className = 'btn_selectable_active';
+            }
+        }
+    </script>
+
+{% endblock %}

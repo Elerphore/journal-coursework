@@ -3,11 +3,15 @@
 namespace App\Controller;
 
 use App\Entity\Branch;
+use App\Entity\EventParticipation;
 use App\Entity\Group;
+use App\Entity\Role;
+use App\Entity\Student;
 use App\Form\JournalChoiceType;
 use App\FormData\AchievementsForm1Data;
 use App\Repository\GroupRepository;
 use App\Service\FormExportService;
+use Doctrine\Persistence\ManagerRegistry;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ServiceLocator;
@@ -23,11 +27,117 @@ use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
  */
 class JournalController extends AbstractController
 {
+
+    /**
+     * @Route("/main", name="main")
+     */
+    public function main(ManagerRegistry $doctrine, Request $request) {
+        $auth_checker = $this->get('security.authorization_checker');
+
+        if($this->getUser()->getSelectedGroup() == null && !$auth_checker->isGranted('ROLE_ADMIN')) {
+            return $this->redirectToRoute('app_journal_group_selection');
+        } else if($auth_checker->isGranted('ROLE_ADMIN')) {
+            return $this->redirectToRoute('app_journal_index', ['group' => 2]);
+        }
+
+        $entityManager = $doctrine->getManager();
+
+        $students = $entityManager->getRepository(Student::class)
+            ->createQueryBuilder('s')
+            ->where('s.group = :groupId')
+            ->setParameter('groupId', $this->getUser()->getSelectedGroup()->getId())
+            ->getQuery()
+            ->getResult();
+
+        $selectedStudentId = $request->request->get('_selected_student');
+
+        $student = null;
+        if($selectedStudentId != null) {
+            $student = $entityManager->getRepository(Student::class)->find($selectedStudentId);
+        }
+
+        $activeGroup = $entityManager->getRepository(Group::class)->find($this->getUser()->getSelectedGroup()->getId());
+
+        $sql =
+            '
+            select
+                pe.result as result,
+                e.name as eventName,
+                s.name as studentName,
+                s.surname as studentSurname,
+                g.name as groupName
+            from
+                participationevents pe
+            left join event e on e.id = pe.id_event
+            left join student s on s.id = pe.id_student
+            left join `group` g on g.id = s.id_group
+            group by g.id
+            having g.id = :activeGroupId';
+
+        $achivements = $entityManager->getConnection()
+                        ->prepare($sql)
+                        ->executeQuery(['activeGroupId' => $this->getUser()->getSelectedGroup()->getId()])
+                        ->fetchAllAssociative();
+
+        return $this->render('main.html.twig', array_merge_recursive([
+            'activeStudent' => $student,
+            'students' => $students,
+            'activeGroup' => $activeGroup,
+            'groupAchivements' => $achivements
+        ]));
+    }
+
+    /**
+     * @Route("/group/selection", name="group_selection")
+     */
+    public function groupSelection(ManagerRegistry $doctrine) {
+        $entityManager = $doctrine->getManager();
+
+        $groups = $entityManager->getRepository(Group::class)
+            ->createQueryBuilder('g')
+            ->where('g.roles = :roles')
+            ->setParameter('roles', $this->getUser()->getId())
+            ->getQuery()
+            ->getResult();
+
+        return $this->render('instructors/group_selection.html.twig', array_merge([
+            'groups' => $groups,
+            'current_id' => $this->getUser()->getId()
+        ]));
+    }
+
+    /**
+     * @Route("/group/setactive", name="set_active_group")
+     * */
+    public function setActiveGroup(ManagerRegistry $doctrine, Request $request) {
+        $entityManager = $doctrine->getManager();
+
+        $selectedGroupId = $request->request->get('_selected_group');
+
+        $selectedGroup = $entityManager->getRepository(Group::class)->find($selectedGroupId);
+
+        $user = $entityManager->getRepository(Role::class)->find($this->getUser()->getId());
+
+        $user->setSelectedGroup($selectedGroup);
+
+        $entityManager->persist($user);
+        $entityManager->flush();
+
+
+        return $this->redirectToRoute('index');
+    }
+
     /**
      * @Route("/{group}/{form}", name="index")
      */
     public function index(ServiceLocator $formDataContainer, ?Group $group = null, string $form = ''): Response
     {
+        $auth_checker = $this->get('security.authorization_checker');
+
+        if($this->getUser()->getSelectedGroup() == null && !$auth_checker->isGranted('ROLE_ADMIN')) {
+            return $this->redirectToRoute('app_journal_group_selection');
+        }
+
         if ($group !== null) {
             $this->denyAccessUnlessGranted('GROUP_VIEW', $group);
         }

@@ -20,7 +20,10 @@
 <div class="wrapper">
 
     {% include("/components/header.html.twig") %}
-    {% include("/components/sidebar.html.twig") %}
+
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+        {% include("/components/sidebar.html.twig") %}
+    {% endif %}
 
     <div class="container">
         {% block body %}{% endblock %}

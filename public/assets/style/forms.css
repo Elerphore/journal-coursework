@@ -29,6 +29,13 @@ select {
     margin: 1em 0;
 }
 
+.form-group input, select {
+    padding: 10px 5px;
+    border-radius: 5px;
+    border: 2px solid #219ff6;
+    outline: none;
+}
+
 .form-group label {
     color: #000;
 }
@@ -49,13 +56,15 @@ label.required::after {
 }
 
 .btn-primary {
-    border-color: #8c8273 !important;
-    color: #000;
+    border: 2px solid transparent;
+    border-radius: 5px;
+    background-color: #219ff6;
 }
 
 .btn-primary:hover {
-    background-color: #4CAF50;
-    color: #fff;
+    background-color: white;
+    color: black;
+    border: 2px solid #219ff6;
     transition-duration: .3s;
 }
 
