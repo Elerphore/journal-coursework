@@ -25,13 +25,20 @@
                 <h1>Классные часы</h1>
 
                 {% for classHour in activeGroup.classhours %}
-                    <div style="margin-bottom: 15px; font-size: 16pt;">
+                    <div style="margin-bottom: 15px; font-size: 16pt; {{ classHour.date < date() ? 'text-decoration: line-through' : '' }}">
                         <p>Месяц: {{ classHour.month }}</p>
                         <p>Дата: {{ classHour.date | date('Y-m-d') }}</p>
                         <p>Название: {{ classHour.subject }}</p>
                         <p>Количество: {{ classHour.qty }}</p>
                     </div>
                 {% endfor %}
+                <div class="form-group">
+                    <a
+                            href="{{ path('app_journal_add_classhour_template') }}"
+                            style="width: 100%; text-align: center"
+                            class="btn_auth"
+                            >Добавить</a>
+                </div>
             </div>
 
             <div class="main-block_item main-block__group_classhours">
@@ -39,12 +46,20 @@
                 <h1>Родительские собрания</h1>
 
                 {% for meeting in activeGroup.parentsMeetings %}
-                    <div style="margin-bottom: 15px; font-size: 16pt;">
+                    <div style="margin-bottom: 15px; font-size: 16pt; {{ meeting.date < date() ? 'text-decoration: line-through' : '' }}">
                         <p>Месяц: {{ meeting.month }}</p>
                         <p>Дата: {{ meeting.date | date('Y-m-d') }}</p>
                         <p>Тема: {{ meeting.subject }}</p>
                     </div>
                 {% endfor %}
+
+                <div class="form-group">
+                    <a
+                            href="{{ path('app_journal_add_meeting_template') }}"
+                            style="width: 100%; text-align: center"
+                            class="btn_auth"
+                    >Добавить</a>
+                </div>
             </div>
 
             <div class="main-block_item main-block__group_classhours">

@@ -2,9 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\AcademicYear;
 use App\Entity\Branch;
+use App\Entity\Classhour;
 use App\Entity\EventParticipation;
 use App\Entity\Group;
+use App\Entity\ParentsMeeting;
 use App\Entity\Role;
 use App\Entity\Student;
 use App\Form\JournalChoiceType;
@@ -27,6 +30,90 @@ use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
  */
 class JournalController extends AbstractController
 {
+
+    /**
+     * @Route("/add_meeting_template", name="add_meeting_template")
+     * */
+    public function add_meeting_template(Request $request): Response
+    {
+        return $this->render('/teacher/add_meeting.html.twig');
+    }
+
+    /**
+     * @Route("/add_classhour_template", name="add_classhour_template")
+     * */
+    public function add_classhour_template(Request $request): Response
+    {
+        return $this->render('/teacher/add_classhour.html.twig');
+    }
+
+    /**
+     * @Route("/add_classhour", name="add_classhour")
+     * */
+    public function add_classhour(ManagerRegistry $doctrine, Request $request): Response
+    {
+        $date = $request->query->get('date');
+        $form_date = \DateTime::createFromFormat("Y-d-m", $date);
+        if (!$form_date)
+        {
+            throw new \UnexpectedValueException("Could not parse the date: $date");
+        }
+
+        $entityManager = $doctrine->getManager();
+
+        $year = $entityManager->getRepository(AcademicYear::class)
+            ->find($form_date->format('Y'));
+
+        $group = $entityManager->getRepository(Group::class)
+            ->find($this->getUser()->getSelectedGroup()->getId());
+
+        $classHour = new Classhour();
+        $classHour->setDate($form_date);
+        $classHour->setAcademicYear($year);
+        $classHour->setMonth($form_date->format('m'));
+        $classHour->setGroup($group);
+        $classHour->setSubject($request->query->get('theme'));
+        $classHour->setQty($request->query->get('count'));
+
+        $entityManager->persist($classHour);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_journal_main');
+    }
+
+    /**
+     * @Route("/add_meeting", name="add_meeting")
+     * */
+    public function add_meeting(ManagerRegistry $doctrine, Request $request): Response
+    {
+        $date = $request->query->get('date');
+        $form_date = \DateTime::createFromFormat("Y-d-m", $date);
+        if (!$form_date)
+        {
+            throw new \UnexpectedValueException("Could not parse the date: $date");
+        }
+
+        $entityManager = $doctrine->getManager();
+
+        $year = $entityManager->getRepository(AcademicYear::class)
+            ->find($form_date->format('Y'));
+
+        $group = $entityManager->getRepository(Group::class)
+            ->find($this->getUser()->getSelectedGroup()->getId());
+
+        $meeting = new ParentsMeeting();
+        $meeting->setDate($form_date);
+        $meeting->setQty($request->query->get('count'));
+        $meeting->setSubject($request->query->get('theme'));
+        $meeting->setGroup($group);
+        $meeting->setMonth($form_date->format('m'));
+        $meeting->setAcademicYear($year);
+
+        $entityManager->persist($meeting);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_journal_main');
+    }
 
     /**
      * @Route("/main", name="main")
