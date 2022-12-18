@@ -31,6 +31,10 @@
                         <p>Название: {{ classHour.subject }}</p>
                         <p>Количество: {{ classHour.qty }}</p>
                     </div>
+                    <a
+                            style="width: 100%; text-align: center"
+                            class="btn_auth_remove"
+                    >Удалить</a>
                 {% endfor %}
                 <div class="form-group">
                     <a
@@ -51,6 +55,10 @@
                         <p>Дата: {{ meeting.date | date('Y-m-d') }}</p>
                         <p>Тема: {{ meeting.subject }}</p>
                     </div>
+                    <a
+                            style="width: 100%; text-align: center"
+                            class="btn_auth_remove"
+                    >Удалить</a>
                 {% endfor %}
 
                 <div class="form-group">

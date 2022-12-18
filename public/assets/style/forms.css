@@ -97,3 +97,26 @@ legend {
     outline: none;
     margin-top: 5px;
 }
+
+.btn_auth_remove {
+    border-radius: 5px;
+    outline: none;
+    display: inline-block;
+    text-transform: uppercase;
+    padding: 10px 60px;
+    border: 2px solid transparent;
+    background-color: #ff0000;
+    color: white;
+    text-decoration: none;
+    margin-top: 25px;
+    letter-spacing: 2px;
+    transition: .3s background-color linear;
+}
+
+.btn_auth_remove:hover {
+    cursor: pointer;
+    background-color: white;
+    color: black;
+    transition-duration: .3s;
+    border: 2px solid #ff0000;
+}
