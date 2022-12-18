@@ -24,7 +24,7 @@
 
                 <h1>Классные часы</h1>
 
-                {% for classHour in activeGroup.classhours %}
+                {% for classHour in activeGroup.classhours|sort((a, b) => b.date <=> a.date) %}
                     <div style="margin-bottom: 15px; font-size: 16pt; {{ classHour.date < date() ? 'text-decoration: line-through' : '' }}">
                         <p>Месяц: {{ classHour.month }}</p>
                         <p>Дата: {{ classHour.date | date('Y-m-d') }}</p>
@@ -45,7 +45,7 @@
 
                 <h1>Родительские собрания</h1>
 
-                {% for meeting in activeGroup.parentsMeetings %}
+                {% for meeting in activeGroup.parentsMeetings|sort((a, b) => b.date <=> a.date) %}
                     <div style="margin-bottom: 15px; font-size: 16pt; {{ meeting.date < date() ? 'text-decoration: line-through' : '' }}">
                         <p>Месяц: {{ meeting.month }}</p>
                         <p>Дата: {{ meeting.date | date('Y-m-d') }}</p>
